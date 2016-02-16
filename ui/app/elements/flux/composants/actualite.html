@@ -17,10 +17,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <h2 class="page-title">{{actualite}}</h2>
-    <span class="paper-font-body2">Update text to change the actualite.</span>
-    <!-- Listens for "input" event and sets actualite to <input>.value -->
-    <input class="paper-font-body2" value="{{actualite::input}}">
+      <paper-material elevation="1">
+          <h2 class="page-title">Contact</h2>
+          <p>This is the contact section</p>
+      </paper-material>
   </template>
 
   <script>
@@ -28,15 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       'use strict';
       
       Polymer({
-        is: 'une-actualite',
-
-        properties: {
-          actualite: {
-            type: String,
-            value: 'Welcome!2',
-            notify: true
-          }
-        }
+        is: 'une-actualite'
       });
     })();
   </script>
