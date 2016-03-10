@@ -7,7 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="composants/actualite.html">
 
 <dom-module id="flux-actualites">
@@ -23,7 +23,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </template>
     </ul>
         
-  <paper-fab id="fab" icon="create"></paper-fab>
+    <paper-fab id="fab" icon="create" on-tap="toggleNewTopicDialog"></paper-fab>
+  
+    <paper-toast id="saveMsg" text="Save button pressed"></paper-toast>
+      
+    <paper-fullscreen-dialog id="dialog2">
+      <h2>Edit This</h2>
+      <paper-button affirmative on-tap="save">Save</paper-button>
+      <p>The "X" button indicates any changes will be discarded when dismissed</p>
+      <div>The confirmation action is disabled until all required actions are performed.</div>
+      <div horizontal layout>
+        <paper-input label="First name" floatingLabel>
+      </div>
+      <div horizontal layout>
+        <paper-input label="Last name" floatingLabel>
+      </div>
+    </paper-fullscreen-dialog>
   </template>
 
   <script>
@@ -43,12 +58,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.items = [
             'Responsive Web App boilerplate',
             'Iron Elements and Paper Elements',
-            'End-to-end Build Tooling (including Vulcanize)',
+            /*'End-to-end Build Tooling (including Vulcanize)',
             'Unit testing with Web Component Tester',
-            'Routing with Page.js',
+            'Routing with Page.js',*/
             'Offline support with the Platinum Service Worker Elements'
           ];
-        }
+        },
+        toggleNewTopicDialog: function() {
+          this.$.dialog2.toggle();
+        },
+        save: function() {
+          this.$.saveMsg.show();
+        },
       });
     })();
   </script>
