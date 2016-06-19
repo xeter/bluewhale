@@ -11,7 +11,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackageClasses = org.bluewhale.webcontent.controllers.GreetingController.class)
+// @ComponentScan(basePackageClasses = {
+// org.bluewhale.webcontent.controllers.GreetingController.class,
+// PersonRepository.class })
+@ComponentScan("org.bluewhale.webcontent.controllers")
 public class Application {
 
 	public static String ROOT = "upload-dir";
