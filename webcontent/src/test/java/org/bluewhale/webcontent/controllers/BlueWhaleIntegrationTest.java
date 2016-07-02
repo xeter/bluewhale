@@ -27,11 +27,17 @@ public abstract class BlueWhaleIntegrationTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.base = new URL("http://localhost:" + port + "/greeting");
+		this.base = new URL("http://localhost:" + port + "/" + nameOfService());
 		template = new TestRestTemplate();
 	}
 
+	protected abstract String nameOfService();
+
 	protected RestTemplate template() {
 		return template;
+	}
+
+	protected URL base() {
+		return base;
 	}
 }
