@@ -20,6 +20,12 @@ public class NoteController {
 		return "Use POST HTTP verb to upload";
 	}
 
+	@RequestMapping(value = "/saveNoteFile", method = RequestMethod.POST)
+	public @ResponseBody String saveNotesFile(
+			@RequestParam(value = "file") final MultipartFile file) {
+		return saveFile(file);
+	}
+
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public @ResponseBody String saveNote(
 			@RequestParam(value = "title") final String title,
@@ -27,6 +33,13 @@ public class NoteController {
 			@RequestParam(value = "link") final String link,
 			@RequestParam(value = "file") final MultipartFile file) {
 
+		final String fileName = saveFile(file);
+
+		return "File uploaded successfully " + title + "; " + summary + "; "
+				+ link + "; fileName " + fileName;
+	}
+
+	private String saveFile(final MultipartFile file) {
 		if (!file.isEmpty()) {
 			final String fileName = generateFileName();
 			try {
@@ -35,8 +48,7 @@ public class NoteController {
 						new FileOutputStream(new File(fileName)));
 				stream.write(bytes);
 				stream.close();
-				return "File uploaded successfully " + title + "; " + summary
-						+ "; " + link;
+				return fileName;
 			} catch (final Exception e) {
 				return "An error occurred while uploading the file ("
 						+ fileName + " => " + e.getMessage();

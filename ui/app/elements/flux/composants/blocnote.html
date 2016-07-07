@@ -12,30 +12,14 @@
 
     <paper-fab id="fab" icon="create" on-tap="toggleNewTopicDialog"></paper-fab>
 
-    <paper-toast id="saveMsg" text="Save button pressed"></paper-toast>
+    <paper-toast id="saveMsg" text="Sauvegardé"></paper-toast>
 
     <paper-fullscreen-dialog id="dialog2">
       <h2>Edit This</h2>
       <paper-button affirmative on-tap="save">Save</paper-button>
       <p>The "X" button indicates any changes will be discarded when dismissed</p>
       <div>The confirmation action is disabled until all required actions are performed.</div>
-      <!-- <form enctype="multipart/form-data" id="note_form" method="POST" action="/note/save">
-        <div horizontal layout>
-          <paper-input label="Titre" name="title" floatingLabel required>
-        </div>
-        <div horizontal layout>
-          <input type="hidden" name="summary" value="{{text}}">
-          <paper-textarea value="{{text}}" label="R&eacute;sum&eacute;"></paper-textarea>
-        </div>
-        <div horizontal layout>
-          <paper-input label="Lien" name="link" floatingLabel>
-        </div>
-        <div horizontal layout>
-          <paper-input label="Image" name="file" type="file" floatingLabel>
-        </div>
-        <button type="submit">Submit</button>
-      </form> -->
-      <form enctype="multipart/form-data" is="iron-form" id="note_form" method="post" action="/note/save">
+      <form enctype="multipart/form-data" is="ajax-form" id="note_form" method="post" action="/note/save" on-submitted="showMessage">
        <div horizontal layout>
           <paper-input label="Titre" name="title" floatingLabel required>
         </div>
@@ -47,9 +31,10 @@
           <paper-input label="Lien" name="link" floatingLabel>
         </div>
         <div horizontal layout>
-          <paper-input label="Image" name="file" type="file" floatingLabel>
+          <file-upload name="file" manualUpload="true" droppable="true" raised="true" accept="image/*" target="/note/saveNoteFile" method="POST">
+          	Sélectionner un fichier
+          </file-upload>
         </div>
-        <paper-button raised onclick="submitHandler(event)">Submit</paper-button>
       </form>
     </paper-fullscreen-dialog>
   </template>
@@ -63,10 +48,12 @@
         toggleNewTopicDialog: function() {
           this.$.dialog2.toggle();
         },
-
         save: function() {
-          this.$.saveMsg.show();
+          this.$.note_form.submit();
         },
+        showMessage: function() {
+            this.$.saveMsg.show();
+        }
       });
     })();
   </script>
