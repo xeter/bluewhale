@@ -5,34 +5,47 @@
     <style include="shared-styles"></style>
     <style>
       :host {
-        display: block
-      color: #333;
+        display: block;
+        color: #333;
       }
+        #noteFormDialog {
+          --paper-fullscreen-dialog-content: {
+            padding: 0 24px;
+          }
+        }
     </style>
 
     <paper-fab id="fab" icon="create" on-tap="toggleNewTopicDialog"></paper-fab>
 
     <paper-toast id="saveMsg" text="Sauvegardé"></paper-toast>
 
-    <paper-fullscreen-dialog id="dialog2">
-      <h2>Edit This</h2>
-      <paper-button affirmative on-tap="save">Save</paper-button>
-      <p>The "X" button indicates any changes will be discarded when dismissed</p>
-      <div>The confirmation action is disabled until all required actions are performed.</div>
-      <form enctype="multipart/form-data" is="ajax-form" id="note_form" method="post" action="/note/save" on-submitted="showMessage">
-       <div horizontal layout>
+    <paper-fullscreen-dialog id="noteFormDialog" class="paper-date-picker-dialog-style">
+      <h2>Nouvelle note</h2>
+      <paper-button affirmative on-tap="save">
+		    <iron-icon icon="save"></iron-icon>
+	    </paper-button>
+      <form enctype="multipart/form-data" is="ajax-form" id="noteForm" method="post" action="/note/save" on-submitted="showMessage">
+        <input type="hidden" name="id" value="">
+        <div horizontal layout>
           <paper-input label="Titre" name="title" floatingLabel required>
         </div>
         <div horizontal layout>
+          <paper-input label="Auteur" name="author" floatingLabel required>
+        </div>
+        <div horizontal layout>
+          <input type="hidden" name="newsDate" value="{{newsDate}}">
+          <paper-date-picker id="newsDatePicker" date="{{newsDate}}"></paper-date-picker>
+        </div>
+        <div horizontal layout>
           <input type="hidden" name="summary" value="{{text}}">
-          <paper-textarea value="{{text}}" label="R&eacute;sum&eacute;"></paper-textarea>
+          <paper-textarea value="{{text}}" label="R&eacute;sum&eacute;" required></paper-textarea>
         </div>
         <div horizontal layout>
           <paper-input label="Lien" name="link" floatingLabel>
         </div>
         <div horizontal layout>
-          <file-upload name="file" manualUpload="true" droppable="true" raised="true" accept="image/*" target="/note/saveNoteFile" method="POST">
-          	Sélectionner un fichier
+          <file-upload id="uploadZone" name="file" manualUpload="true" droppable="true" raised="true" accept="image/*" target="/note/saveNoteFile" method="POST">
+          	<iron-icon icon="file-upload"></iron-icon>
           </file-upload>
         </div>
       </form>
@@ -46,10 +59,14 @@
         is: 'bloc-note',
 
         toggleNewTopicDialog: function() {
-          this.$.dialog2.toggle();
+          this.$.noteForm.reset();
+          this.$.noteFormDialog.toggle();
+          this.$.newsDatePicker.date = new Date();
+          this.$.uploadZone.clear();
         },
         save: function() {
-          this.$.note_form.submit();
+          this.$.noteForm.submit();
+          this.$.noteFormDialog.toggle();
         },
         showMessage: function() {
             this.$.saveMsg.show();

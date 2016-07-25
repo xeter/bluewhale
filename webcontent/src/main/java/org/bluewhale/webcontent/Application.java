@@ -1,4 +1,4 @@
-package org.bluewhale.webcontent.configuration;
+package org.bluewhale.webcontent;
 
 import java.io.File;
 
@@ -14,7 +14,8 @@ import org.springframework.context.annotation.Configuration;
 // @ComponentScan(basePackageClasses = {
 // org.bluewhale.webcontent.controllers.GreetingController.class,
 // PersonRepository.class })
-@ComponentScan("org.bluewhale.webcontent.controllers")
+@ComponentScan(basePackages = { "org.bluewhale.webcontent.controllers",
+"org.bluewhale.webcontent.repository" })
 public class Application {
 
 	public static String ROOT = "upload-dir";
